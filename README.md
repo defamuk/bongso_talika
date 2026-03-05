@@ -1,4 +1,4 @@
-# বংশাবলী · Bongso Talika
+# বংশতালিকা · Bongso Talika
 
 **Interactive Family Tree PWA with Firebase Realtime Database Sync**
 

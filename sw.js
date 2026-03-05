@@ -1,9 +1,11 @@
-const CACHE_NAME = "bongso-talika-v2";
+const CACHE_NAME = "bongso-talika-v3";
 const ASSETS = [
   "./index.html",
   "./manifest.json",
   "./icon.svg",
-  "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap"
+  "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap",
+  "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js",
+  "https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"
 ];
 
 // Install: cache core assets

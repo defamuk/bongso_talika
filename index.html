@@ -87,13 +87,10 @@ input,select,textarea,button{font-family:inherit}
   </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;color:#d4956a;font-family:'Playfair Display',serif;font-size:20px">Loading...</div></div>
 
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import{getDatabase,ref,set,onValue,remove}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-window._fb={initializeApp,getDatabase,ref,set,onValue,remove};
-</script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
 
 <script>
 const SK="bt_data",FK="bt_fb";
@@ -113,10 +110,10 @@ function lL(){try{const d=localStorage.getItem(SK);return d?JSON.parse(d):null}c
 function sFc(){try{localStorage.setItem(FK,JSON.stringify(S.fbc))}catch{}}
 function lFc(){try{const d=localStorage.getItem(FK);return d?JSON.parse(d):null}catch{return null}}
 
-async function cFb(c){if(!c?.projectId||!c?.databaseURL){S.ss="local";R();return}try{const f=window._fb;if(!f){S.ss="error";R();return}const a=f.initializeApp(c,"bt-"+Date.now());fdb=f.getDatabase(a);if(fbu)fbu();const t=f.ref(fdb,"familyTree");fbu=f.onValue(t,s=>{const d=s.val();if(d){S.people=Object.entries(d).map(([id,v])=>({...v,id}));sL()}S.ss="synced";R()},()=>{S.ss="error";R()})}catch(e){console.error(e);S.ss="error";R()}}
-async function fSv(p){if(!fdb||S.ss!=="synced")return;const f=window._fb,{id,...d}=p;try{await f.set(f.ref(fdb,`familyTree/${id}`),d)}catch{}}
-async function fDl(id){if(!fdb||S.ss!=="synced")return;const f=window._fb;try{await f.remove(f.ref(fdb,`familyTree/${id}`))}catch{}}
-async function fPA(){if(!fdb)return;const f=window._fb;for(const p of S.people){const{id,...d}=p;await f.set(f.ref(fdb,`familyTree/${id}`),d)}alert(`Pushed ${S.people.length}!`)}
+async function cFb(c){if(!c?.projectId||!c?.databaseURL){S.ss="local";R();return}try{if(typeof firebase==="undefined"){S.ss="error";R();return}const app=firebase.initializeApp(c,"bt-"+Date.now());fdb=firebase.database(app);if(fbu)fbu();const t=fdb.ref("familyTree");fbu=t.on("value",s=>{const d=s.val();if(d){S.people=Object.entries(d).map(([id,v])=>({...v,id}));sL()}S.ss="synced";R()},()=>{S.ss="error";R()})}catch(e){console.error(e);S.ss="error";R()}}
+async function fSv(p){if(!fdb||S.ss!=="synced")return;const{id,...d}=p;try{await fdb.ref(`familyTree/${id}`).set(d)}catch{}}
+async function fDl(id){if(!fdb||S.ss!=="synced")return;try{await fdb.ref(`familyTree/${id}`).remove()}catch{}}
+async function fPA(){if(!fdb)return;for(const p of S.people){const{id,...d}=p;await fdb.ref(`familyTree/${id}`).set(d)}alert(`Pushed ${S.people.length}!`)}
 
 function sP(person){
   const sr=(tid,fld,mid)=>{const t=fp(tid);if(t&&!(t[fld]||[]).includes(mid))t[fld]=[...(t[fld]||[]),mid]};

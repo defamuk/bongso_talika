@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1A0000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Bongso Talika — Interactive Family Tree with Firebase Sync">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>বংশতালিকা · Bongso Talika</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#1A0000;--bg2:#210505;--bg3:#2a0a0a;--bg4:#331010;--bgi:#280808;--bd:#3d1515;--bdh:#4d2020;--ac:#d4956a;--acb:#e8ac82;--acm:#9a6e48;--acs:rgba(212,149,106,0.08);--tx:#f0e4d6;--ts:#c4b0a0;--tm:#8a7568;--tf:#5c4a40;--ml:#6a9ac0;--fm:#c06a8a;--rd:#c06060;--gn:#60b070;--sl:#d4956a;--cl:#5c4a40}
+body{font-family:'Source Sans 3',-apple-system,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+input,select,textarea,button{font-family:inherit}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.fu{animation:fu .25s ease forwards}
+.hd{padding:14px 20px;border-bottom:1px solid var(--bd);background:linear-gradient(180deg,var(--bg2),var(--bg));display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100}
+.hd-t{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--ac)}
+.hd-s{font-size:10px;color:var(--tf);letter-spacing:3px;text-transform:uppercase;margin-top:1px}
+.nv{display:flex;gap:2px;padding:6px 20px;border-bottom:1px solid var(--bd);background:var(--bg2);overflow-x:auto}
+.nb{padding:7px 16px;border-radius:5px;border:none;cursor:pointer;font-size:13px;white-space:nowrap;background:transparent;color:var(--tm);transition:all .15s}
+.nb:hover{background:var(--acs);color:var(--acb)}.nb.on{background:rgba(212,149,106,.12);color:var(--acb);font-weight:600}
+.mn{padding:16px 20px;max-width:1400px;margin:0 auto}
+.cd{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:10px;transition:border-color .15s}
+.cd:hover{border-color:var(--bdh)}.cda{border-color:rgba(212,149,106,.2)}
+.ip{width:100%;padding:9px 12px;border-radius:6px;background:var(--bgi);border:1px solid var(--bd);color:var(--tx);font-size:14px;outline:none}.ip:focus{border-color:var(--acm)}
+.lb{display:block;font-size:10px;color:var(--tf);margin-bottom:3px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
+.bt{padding:9px 18px;border-radius:6px;font-size:13px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.bp{background:var(--ac);color:var(--bg);border:none;font-weight:600}.bp:hover{filter:brightness(1.1)}
+.bg{background:transparent;color:var(--ts);border:1px solid var(--bd)}.bg:hover{background:var(--acs);color:var(--acb)}
+.bd{background:transparent;color:var(--rd);border:1px solid rgba(192,96,96,.25)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bgi);flex-shrink:0}
+.av img{width:100%;height:100%;object-fit:cover}
+.am{border:2px solid var(--ml)}.af{border:2px solid var(--fm)}.ao{border:2px solid var(--acm)}
+.cc{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--bgi);color:var(--tx);font-size:12px;cursor:pointer;transition:all .12s}
+.cc:hover{border-color:var(--ac);background:var(--acs)}
+.ct{padding:3px 10px;border-radius:14px;font-size:11px;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--tm);transition:all .12s}
+.ct.on{border-color:var(--ac);background:rgba(212,149,106,.12);color:var(--acb)}
+.sl{font-size:10px;color:var(--acm);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.dn{padding:14px;border-radius:6px;background:rgba(212,149,106,.04);border-left:3px solid rgba(212,149,106,.3);margin-bottom:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}@media(max-width:500px){.g2{grid-template-columns:1fr}}
+.sb{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;margin-bottom:20px;padding:14px;border-radius:8px;background:linear-gradient(135deg,var(--bg3),rgba(212,149,106,.04));border:1px solid var(--bd)}
+.sn{font-size:22px;font-weight:700;color:var(--ac);font-family:'Playfair Display',serif}
+.sla{font-size:9px;color:var(--tm);letter-spacing:1.5px;text-transform:uppercase}
+.ft{padding:14px 20px;border-top:1px solid var(--bd);text-align:center;font-size:10px;color:var(--tf);letter-spacing:1px}
+
+/* Tree */
+.tc{overflow-x:auto;overflow-y:auto;padding:20px 0;-webkit-overflow-scrolling:touch}
+.gs{margin-bottom:20px}
+.glr{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:0 10px}
+.glt{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acm);font-weight:700;white-space:nowrap}
+.gl{flex:1;height:1px;background:var(--bd)}.gc{font-size:10px;color:var(--tf)}
+
+.fur{display:flex;flex-wrap:wrap;gap:20px;padding:4px 10px;align-items:flex-start}
+.fu2{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cr{display:flex;align-items:center;gap:0}
+.sc{width:24px;height:2px;background:var(--sl);position:relative;display:flex;align-items:center;justify-content:center}
+.sc::after{content:'∞';position:absolute;top:-10px;font-size:11px;color:var(--sl);line-height:1}
+.cb{display:flex;flex-direction:column;align-items:center}
+.cbs{width:2px;height:12px;background:var(--cl)}
+.cbr{height:2px;background:var(--cl)}
+.chr{display:flex;gap:2px;justify-content:center}
+.chs{width:2px;height:10px;background:var(--cl);margin:0 auto}
+
+.tn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 10px;border-radius:7px;cursor:pointer;background:var(--bg3);border:1px solid var(--bd);min-width:72px;max-width:92px;transition:all .2s ease;position:relative}
+.tn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.5);border-color:var(--ac)}
+.tn.dg{opacity:.4}.tn.dov{border-color:var(--acb);box-shadow:0 0 12px rgba(212,149,106,.3)}
+.na{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bgi);font-size:12px;color:var(--tm)}
+.na img{width:100%;height:100%;object-fit:cover}
+.nn{font-size:10px;font-weight:600;text-align:center;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx)}
+.ns{font-size:8px;color:var(--tf);text-align:center}.ny{font-size:8px;color:var(--tf)}
+
+/* Mini tree */
+.mt{padding:16px;border-radius:8px;background:var(--bg);border:1px solid var(--bd);margin-bottom:16px;overflow-x:auto}
+.mg{margin-bottom:12px}.mgl{font-size:9px;color:var(--tf);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.mgr{display:flex;flex-wrap:wrap;gap:6px}
+.mnd{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:16px;font-size:11px;cursor:pointer;background:var(--bg3);border:1px solid var(--bd);transition:all .12s}
+.mnd:hover{border-color:var(--ac)}.mnd.cur{border-color:var(--ac);background:rgba(212,149,106,.1);font-weight:600}
+.mdt{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sg code{background:var(--bgi);padding:1px 6px;border-radius:3px;font-family:monospace;font-size:11px}
+.hl{color:var(--acb)}
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import{getDatabase,ref,set,onValue,remove}from"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+window._fb={initializeApp,getDatabase,ref,set,onValue,remove};
+</script>
+
+<script>
+const SK="bt_data",FK="bt_fb";
+let S={people:[],view:"tree",editing:null,viewing:null,search:"",gf:"",fbc:null,ss:"local",_ap:null};
+let fdb=null,fbu=null;
+
+function gid(){return"p_"+Math.random().toString(36).substr(2,12)}
+function esc(s){const d=document.createElement("div");d.textContent=s||"";return d.innerHTML}
+function ini(p){return((p.firstName||"?")[0]).toUpperCase()}
+function ac(p){return p.gender==="Male"?"am":p.gender==="Female"?"af":"ao"}
+function fy(d){if(!d)return"";try{return new Date(d).getFullYear()}catch{return""}}
+function fd(d){if(!d)return"";try{return new Date(d).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}catch{return d}}
+function ag(b,d){if(!b)return null;const e=d?new Date(d):new Date(),x=new Date(b);let a=e.getFullYear()-x.getFullYear();if(e.getMonth()<x.getMonth()||(e.getMonth()===x.getMonth()&&e.getDate()<x.getDate()))a--;return a}
+function fp(id){return S.people.find(p=>p.id===id)}
+function sL(){try{localStorage.setItem(SK,JSON.stringify(S.people))}catch{}}
+function lL(){try{const d=localStorage.getItem(SK);return d?JSON.parse(d):null}catch{return null}}
+function sFc(){try{localStorage.setItem(FK,JSON.stringify(S.fbc))}catch{}}
+function lFc(){try{const d=localStorage.getItem(FK);return d?JSON.parse(d):null}catch{return null}}
+
+async function cFb(c){if(!c?.projectId||!c?.databaseURL){S.ss="local";R();return}try{const f=window._fb;if(!f){S.ss="error";R();return}const a=f.initializeApp(c,"bt-"+Date.now());fdb=f.getDatabase(a);if(fbu)fbu();const t=f.ref(fdb,"familyTree");fbu=f.onValue(t,s=>{const d=s.val();if(d){S.people=Object.entries(d).map(([id,v])=>({...v,id}));sL()}S.ss="synced";R()},()=>{S.ss="error";R()})}catch(e){console.error(e);S.ss="error";R()}}
+async function fSv(p){if(!fdb||S.ss!=="synced")return;const f=window._fb,{id,...d}=p;try{await f.set(f.ref(fdb,`familyTree/${id}`),d)}catch{}}
+async function fDl(id){if(!fdb||S.ss!=="synced")return;const f=window._fb;try{await f.remove(f.ref(fdb,`familyTree/${id}`))}catch{}}
+async function fPA(){if(!fdb)return;const f=window._fb;for(const p of S.people){const{id,...d}=p;await f.set(f.ref(fdb,`familyTree/${id}`),d)}alert(`Pushed ${S.people.length}!`)}
+
+function sP(person){
+  const sr=(tid,fld,mid)=>{const t=fp(tid);if(t&&!(t[fld]||[]).includes(mid))t[fld]=[...(t[fld]||[]),mid]};
+  (person.parentIds||[]).forEach(pid=>sr(pid,"childIds",person.id));
+  (person.childIds||[]).forEach(cid=>sr(cid,"parentIds",person.id));
+  (person.spouseIds||[]).forEach(sid=>sr(sid,"spouseIds",person.id));
+  const i=S.people.findIndex(p=>p.id===person.id);
+  if(i>=0)S.people[i]=person;else S.people.push(person);
+  sL();fSv(person);
+  [...(person.parentIds||[]),...(person.childIds||[]),...(person.spouseIds||[])].forEach(r=>{const rp=fp(r);if(rp)fSv(rp)});
+  S.editing=null;if(S.view==="add")S.view="people";R()
+}
+function dP(id){
+  S.people=S.people.filter(p=>p.id!==id).map(p=>({...p,parentIds:(p.parentIds||[]).filter(x=>x!==id),childIds:(p.childIds||[]).filter(x=>x!==id),spouseIds:(p.spouseIds||[]).filter(x=>x!==id)}));
+  sL();fDl(id);S.editing=null;S.viewing=null;R()
+}
+
+// ─── Initial Data ─────────────────────────────────────────────
+function bI(){
+const P=[],M={};
+const a=(k,d)=>{const id=gid();M[k]=id;P.push({id,firstName:d.fn||"",lastName:d.ln||"Dey",nickname:d.nick||"",gender:d.g||"",dob:"",birthLocation:d.loc||"",dod:"",generation:d.gen||"",lifeDetails:d.notes||"",photo:"",parentIds:[],spouseIds:[],childIds:[],so:d.so||0})};
+const l=(a1,b1)=>{const p=P.find(x=>x.id===M[a1]),c=P.find(x=>x.id===M[b1]);if(p&&c){if(!p.childIds.includes(c.id))p.childIds.push(c.id);if(!c.parentIds.includes(p.id))c.parentIds.push(p.id)}};
+const m=(a1,b1)=>{const p1=P.find(x=>x.id===M[a1]),p2=P.find(x=>x.id===M[b1]);if(p1&&p2){if(!p1.spouseIds.includes(p2.id))p1.spouseIds.push(p2.id);if(!p2.spouseIds.includes(p1.id))p2.spouseIds.push(p1.id)}};
+
+a("narshai",{fn:"Narshai",g:"Male",gen:1});
+a("motilal",{fn:"Motilal",g:"Male",gen:2});a("chunilal",{fn:"Chunilal",g:"Male",gen:2});
+a("mahakal",{fn:"Mahakal",g:"Male",gen:2});a("maniklal",{fn:"Maniklal",g:"Male",gen:2});
+a("satish_chandra",{fn:"Satish Chandra",g:"Male",gen:3});a("kedar",{fn:"Kedar",g:"Male",gen:3});
+a("shombol",{fn:"Shombol",g:"Male",gen:3});a("mona",{fn:"Mona",gen:3});a("kala",{fn:"Kala",gen:3});
+a("konta",{fn:"Konta",gen:3});a("jogdeb",{fn:"Jogdeb",g:"Male",gen:3});
+a("buno",{fn:"Buno",gen:3});a("tuni",{fn:"Tuni",gen:3});a("solu",{fn:"Solu",gen:3});
+a("krishna_das",{fn:"Krishna",ln:"Das",gen:3});
+a("pantha_deb",{fn:"Pantha Deb",g:"Male",gen:4});a("bishnu_priya",{fn:"Bishnu Priya",g:"Female",gen:4});
+a("ramesh_chandra",{fn:"Ramesh Chandra",g:"Male",gen:4});a("bhupendra_nath",{fn:"Bhupendra Nath",g:"Male",gen:4});
+a("namita",{fn:"Namita",g:"Female",gen:4});a("parul",{fn:"Parul",g:"Female",gen:4});
+a("sona",{fn:"Sona",gen:4});a("mentu",{fn:"Mentu",gen:4});a("gobindo",{fn:"Gobindo",g:"Male",gen:4});
+a("gauri",{fn:"Gauri",g:"Female",gen:4});a("shanti",{fn:"Shanti",g:"Female",gen:4});
+a("reta",{fn:"Reta",g:"Female",gen:4});a("gita",{fn:"Gita",g:"Female",gen:4});
+a("joshi",{fn:"Joshi",gen:4});a("shibu",{fn:"Shibu",gen:4});a("rantu",{fn:"Rantu",gen:4});
+a("narayan_das",{fn:"Narayan",ln:"Das",g:"Male",gen:4});a("rupa_4",{fn:"Rupa",g:"Female",gen:4});
+a("rupayan",{fn:"Rupayan",g:"Male",gen:4});a("rupkatha",{fn:"Rupkatha",gen:4});
+a("gopal_5",{fn:"Gopal",g:"Male",gen:5});a("chinu",{fn:"Chinu",gen:5});a("dulu",{fn:"Dulu",gen:5});
+a("swapan",{fn:"Swapan",g:"Male",gen:5});a("nibma",{fn:"Nibma",gen:5});a("arima",{fn:"Arima",g:"Female",gen:5});
+a("satya",{fn:"Satya",gen:5});a("mukundo",{fn:"Mukundo",gen:5});a("radha",{fn:"Radha",g:"Female",gen:5});
+a("hiya",{fn:"Hiya",gen:5});a("govindo",{fn:"Govindo",g:"Male",gen:5});a("shyam",{fn:"Shyam",g:"Male",gen:5});
+a("ram",{fn:"Ram",g:"Male",gen:5});a("nanda",{fn:"Nanda",gen:5});a("jamuna",{fn:"Jamuna",g:"Female",gen:5});
+a("murari",{fn:"Murari",g:"Male",gen:5});a("laxmi",{fn:"Laxmi",g:"Female",gen:5});
+a("madhusudan",{fn:"Madhusudan",g:"Male",gen:5});a("rani",{fn:"Rani",g:"Female",gen:5});
+a("sudha",{fn:"Sudha",g:"Female",gen:5});a("robin_mullick",{fn:"Robin",ln:"Mullick",g:"Male",gen:5});
+a("kamini_mullick",{fn:"Kamini",ln:"Mullick",gen:5});a("amalendo_mullick",{fn:"Amalendo",ln:"Mullick",g:"Male",gen:5});
+a("saikat_mullick",{fn:"Saikat",ln:"Mullick",g:"Male",gen:5});a("anjana_mullick",{fn:"Anjana",ln:"Mullick",g:"Female",gen:5});
+a("anima",{fn:"Anima",g:"Female",gen:5});a("bhanu",{fn:"Bhanu",gen:5});a("batti",{fn:"Batti",gen:5});
+a("ramananda_mullick",{fn:"Ramananda",ln:"Mullick",g:"Male",gen:5});a("nowyen",{fn:"Nowyen",gen:5});
+a("maya",{fn:"Maya",g:"Female",gen:5});a("madhuri",{fn:"Madhuri",g:"Female",gen:5});
+a("pontha",{fn:"Pontha",gen:5});a("bapparaj",{fn:"Bapparaj",gen:5});a("asit_mullick",{fn:"Asit",ln:"Mullick",g:"Male",gen:5});
+a("sukanya_pal",{fn:"Sukanya",ln:"Pal",g:"Female",gen:5,nick:"Dita"});a("souvik_pal",{fn:"Souvik",ln:"Pal",g:"Male",gen:5});
+a("keya_basu",{fn:"Keya",ln:"Basu",g:"Female",gen:5});a("adish_basu",{fn:"Adish",ln:"Basu",g:"Male",gen:5});
+a("biswajit",{fn:"Biswajit",g:"Male",gen:5});a("anchita",{fn:"Anchita",g:"Female",gen:5});
+a("gouri_beth",{fn:"Gouri",ln:"Beth",g:"Female",gen:5});a("asit_beth",{fn:"Asit",ln:"Beth",g:"Male",gen:5});
+a("amit",{fn:"Amit",g:"Male",gen:5});a("satyajit",{fn:"Satyajit",g:"Male",gen:5});a("rupali",{fn:"Rupali",g:"Female",gen:5});
+a("ramanuj",{fn:"Ramanuj",g:"Male",gen:5});a("bhagwat",{fn:"Bhagwat",gen:5});
+a("chanpa_mullick",{fn:"Chanpa",ln:"Mullick",g:"Female",gen:5});a("suratha",{fn:"Suratha",gen:5});
+a("bablu",{fn:"Bablu",g:"Male",gen:6});a("anjani",{fn:"Anjani",gen:6});a("ranjan",{fn:"Ranjan",g:"Male",gen:6});
+a("chandan_kr",{fn:"Chandan Kr.",g:"Male",gen:6});a("banani",{fn:"Banani",g:"Female",gen:6});
+a("sumita",{fn:"Sumita",g:"Female",gen:6});a("ruma",{fn:"Ruma",g:"Female",gen:6});
+a("gopal_c_pal",{fn:"Gopal C.",ln:"Pal",g:"Male",gen:6});a("meghna",{fn:"Meghna",g:"Female",gen:6});
+a("abinash",{fn:"Abinash",g:"Male",gen:6});a("antara_roy",{fn:"Antara",ln:"Roychoudhury",g:"Female",gen:6});
+a("swarnendu",{fn:"Swarnendu",g:"Male",gen:6});a("dwitindrendu",{fn:"Dwitindrendu",g:"Male",gen:6});
+a("arindam_roy",{fn:"Arindam",ln:"Roychoudhury",g:"Male",gen:6});a("esha",{fn:"Esha",g:"Female",gen:6});
+a("anushka_roy",{fn:"Anushka",ln:"Roychoudhury",g:"Female",gen:6});a("indranil",{fn:"Indranil",g:"Male",gen:6});
+a("samaresh",{fn:"Samaresh",g:"Male",gen:6});a("sawani",{fn:"Sawani",g:"Female",gen:6});
+a("gouranga_pal",{fn:"Gouranga",ln:"Pal",g:"Male",gen:6});a("ajit_pal",{fn:"Ajit",ln:"Pal",g:"Male",gen:6});
+a("chandrama_srivastav",{fn:"Chandrama",ln:"Srivastav",g:"Female",gen:6});a("priyank_srivastav",{fn:"Priyank",ln:"Srivastav",g:"Male",gen:6});
+a("abir_pal",{fn:"Abir",ln:"Pal",g:"Male",gen:6});a("prisa_pal",{fn:"Prisa",ln:"Pal",g:"Female",gen:6});
+a("rishi_srivastav",{fn:"Rishi",ln:"Srivastav",g:"Male",gen:6});a("sohini_srivastav",{fn:"Sohini",ln:"Srivastav",g:"Female",gen:6});
+a("ratna",{fn:"Ratna",g:"Female",gen:6});a("gautam",{fn:"Gautam",g:"Male",gen:6});a("bamikan",{fn:"Bamikan",gen:6});
+a("pousun",{fn:"Pousun",gen:6});a("bulpi",{fn:"Bulpi",gen:6});a("chaitali",{fn:"Chaitali",g:"Female",gen:6});
+a("tamal",{fn:"Tamal",g:"Male",gen:6});a("mandita",{fn:"Mandita",g:"Female",gen:6});
+a("rittik",{fn:"Rittik",g:"Male",gen:6});a("somenath",{fn:"Somenath",g:"Male",gen:6});a("dwarakanath",{fn:"Dwarakanath",g:"Male",gen:6});
+a("pampa_ganguly",{fn:"Pampa",ln:"Ganguly",g:"Female",gen:6});a("rupa_bhattacharya",{fn:"Rupa",ln:"Bhattacharya",g:"Female",gen:6});
+a("amarnath_ganguly",{fn:"Amarnath",ln:"Ganguly",g:"Male",gen:6});a("bimochar_bhattacharya",{fn:"Bimochar",ln:"Bhattacharya",g:"Male",gen:6});
+a("bibhu",{fn:"Bibhu",gen:6});a("swabara",{fn:"Swabara",gen:6});
+a("aditya_ganguly",{fn:"Aditya",ln:"Ganguly",g:"Male",gen:6});a("samesha_ganguly",{fn:"Samesha",ln:"Ganguly",gen:6});
+a("sattika_bhattacharya",{fn:"Sattika",ln:"Bhattacharya",gen:6});a("keshav_das",{fn:"Keshav",ln:"Das",g:"Male",gen:6});
+a("swetha_ganguly",{fn:"Swetha",ln:"Ganguly",g:"Female",gen:6});a("shimoi_das",{fn:"Shimoi",ln:"Das",gen:6});
+a("avirta",{fn:"Avirta",gen:6});a("saikat_dey",{fn:"Saikat",g:"Male",gen:6});
+a("atanu",{fn:"Atanu",g:"Male",gen:6});a("sayantika",{fn:"Sayantika",g:"Female",gen:6});a("ayantika",{fn:"Ayantika",g:"Female",gen:6});
+a("kakali_sadhu",{fn:"Kakali",ln:"Sadhu",g:"Female",gen:6});a("gobindo_sadhu",{fn:"Gobindo",ln:"Sadhu",g:"Male",gen:6});
+a("sohon_sadhu",{fn:"Sohon",ln:"Sadhu",g:"Male",gen:6});a("sreejit",{fn:"Sreejit",g:"Male",gen:6});
+a("bratati",{fn:"Bratati",g:"Female",gen:6});a("swapan_6",{fn:"Swapan",g:"Male",gen:6});
+
+l("narshai","motilal");l("narshai","chunilal");
+l("motilal","satish_chandra");l("motilal","kedar");
+l("mahakal","shombol");l("mahakal","mona");l("mahakal","kala");l("mahakal","konta");l("mahakal","jogdeb");
+l("maniklal","buno");l("maniklal","tuni");l("maniklal","solu");
+l("satish_chandra","pantha_deb");l("satish_chandra","bishnu_priya");l("satish_chandra","ramesh_chandra");l("satish_chandra","bhupendra_nath");
+l("shombol","sona");l("shombol","mentu");l("shombol","gobindo");
+l("jogdeb","gauri");l("jogdeb","shanti");l("jogdeb","reta");l("jogdeb","gita");l("jogdeb","joshi");l("jogdeb","shibu");l("jogdeb","rantu");
+l("ramesh_chandra","gopal_5");l("ramesh_chandra","chinu");l("ramesh_chandra","dulu");l("ramesh_chandra","swapan");l("ramesh_chandra","nibma");l("ramesh_chandra","arima");
+l("gobindo","satya");l("gobindo","mukundo");l("gobindo","radha");l("gobindo","hiya");l("gobindo","govindo");l("gobindo","shyam");l("gobindo","ram");
+l("swapan","bablu");l("swapan","anjani");l("swapan","ranjan");l("swapan","chandan_kr");l("swapan","banani");
+l("govindo","tamal");l("govindo","mandita");
+l("shyam","ratna");l("shyam","gautam");l("shyam","bamikan");
+l("ram","rittik");l("ram","somenath");l("ram","dwarakanath");
+l("jamuna","pampa_ganguly");l("jamuna","bibhu");l("jamuna","swabara");
+l("laxmi","atanu");l("laxmi","sayantika");
+l("murari","indranil");l("murari","samaresh");
+m("amarnath_ganguly","pampa_ganguly");m("bimochar_bhattacharya","rupa_bhattacharya");
+m("gobindo_sadhu","kakali_sadhu");m("arindam_roy","antara_roy");m("gopal_c_pal","banani");
+m("ramesh_chandra","namita");
+
+return P}
+
+// ─── Node HTML ────────────────────────────────────────────────
+function nH(p,dr=true){
+const bc=p.gender==="Male"?"var(--ml)":p.gender==="Female"?"var(--fm)":"var(--acm)";
+return`<div class="tn" onclick="vP('${p.id}')" ${dr?`draggable="true" ondragstart="dS(event,'${p.id}')" ondragover="dO(event)" ondrop="dD(event,'${p.id}')" ondragend="dE(event)"`:""}>
+<div class="na" style="border:2px solid ${bc}">${p.photo?`<img src="${p.photo}">`:ini(p)}</div>
+<div class="nn">${esc(p.firstName)}</div>
+<div class="ns">${esc(p.lastName)}</div>
+${p.dob?`<div class="ny">${fy(p.dob)}${p.dod?"–"+fy(p.dod):""}</div>`:""}
+</div>`}
+
+// ─── Tree View ────────────────────────────────────────────────
+function rTV(){
+const gs={1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[]};
+S.people.forEach(p=>{const n=Number(p.generation);if(n>=1&&n<=8)gs[n].push(p)});
+Object.values(gs).forEach(a=>a.sort((x,y)=>(x.so||0)-(y.so||0)));
+const st={t:S.people.length,p:S.people.filter(p=>p.photo).length,n:S.people.filter(p=>p.lifeDetails).length,g:new Set(S.people.map(p=>p.generation).filter(Boolean)).size};
+
+let h="";
+if(S.people.length>0)h+=`<div class="sb">${[{n:st.t,l:"People"},{n:st.g,l:"Generations"},{n:st.p,l:"Photos"},{n:st.n,l:"Notes"}].map(s=>`<div style="text-align:center"><div class="sn">${s.n}</div><div class="sla">${s.l}</div></div>`).join("")}</div>`;
+
+h+=`<div class="tc"><div>`;
+for(let g=1;g<=8;g++){
+if(gs[g].length===0)continue;
+const placed=new Set(),units=[];
+gs[g].forEach(p=>{
+  if(placed.has(p.id))return;placed.add(p.id);
+  const sp=(p.spouseIds||[]).map(fp).filter(s=>s&&Number(s.generation)===g&&!placed.has(s.id));
+  sp.forEach(s=>placed.add(s.id));
+  const ch=[...new Set([...(p.childIds||[]),...sp.flatMap(s=>s.childIds||[])])].map(fp).filter(Boolean);
+  const nch=ch.filter(c=>Number(c.generation)===g+1);
+  units.push({p,sp,ch:nch})
+});
+
+h+=`<div class="gs"><div class="glr"><span class="glt">Gen ${g}</span><div class="gl"></div><span class="gc">${gs[g].length}</span></div>
+<div class="fur">`;
+
+units.forEach(u=>{
+  h+=`<div class="fu2">`;
+  // Couple
+  h+=`<div class="cr">${nH(u.p)}`;
+  u.sp.forEach(s=>{h+=`<div class="sc"></div>${nH(s)}`});
+  h+=`</div>`;
+  // Children indicator
+  if(u.ch.length>0){
+    h+=`<div class="cb"><div class="cbs"></div>
+      <div style="display:flex;gap:2px;align-items:flex-start">`;
+    u.ch.forEach((c,i)=>{
+      h+=`<div style="display:flex;flex-direction:column;align-items:center">
+        <div class="chs"></div>${nH(c,true)}
+      </div>`;
+    });
+    h+=`</div></div>`;
+  }
+  h+=`</div>`;
+});
+h+=`</div></div>`;
+}
+h+=`</div></div>`;
+if(S.people.length===0)h+=`<div style="text-align:center;padding:50px;color:var(--tm)"><div style="font-size:18px;font-family:'Playfair Display',serif;margin-bottom:6px;color:var(--ts)">Empty tree</div><div style="font-size:13px">Add your first family member</div></div>`;
+return h}
+
+// ─── Mini Tree ────────────────────────────────────────────────
+function rMT(person){
+const col=new Map();col.set(person.id,person);
+function addUp(p,d){if(d<=0)return;(p.parentIds||[]).forEach(pid=>{const pp=fp(pid);if(pp&&!col.has(pp.id)){col.set(pp.id,pp);addUp(pp,d-1)}});(p.parentIds||[]).forEach(pid=>{const pp=fp(pid);if(pp)(pp.spouseIds||[]).forEach(sid=>{const s=fp(sid);if(s&&!col.has(s.id))col.set(s.id,s)})})}
+addUp(person,2);
+const sibs=S.people.filter(x=>x.id!==person.id&&(person.parentIds||[]).length>0&&(x.parentIds||[]).some(pid=>(person.parentIds||[]).includes(pid)));
+sibs.forEach(s=>col.set(s.id,s));
+(person.spouseIds||[]).forEach(sid=>{const s=fp(sid);if(s)col.set(s.id,s)});
+function addDn(p,d){if(d<=0)return;(p.childIds||[]).forEach(cid=>{const c=fp(cid);if(c&&!col.has(c.id)){col.set(c.id,c);addDn(c,d-1)}});(p.childIds||[]).forEach(cid=>{const c=fp(cid);if(c)(c.spouseIds||[]).forEach(sid=>{const s=fp(sid);if(s&&!col.has(s.id))col.set(s.id,s)})})}
+addDn(person,2);
+const gg={};col.forEach(p=>{const g=Number(p.generation)||0;if(!gg[g])gg[g]=[];gg[g].push(p)});
+const sk=Object.keys(gg).map(Number).sort((a,b)=>a-b);
+if(!sk.length)return"";
+let h=`<div class="mt"><div class="sl">Family Context (2 generations above & below)</div>`;
+sk.forEach(g=>{
+  h+=`<div class="mg"><div class="mgl">Gen ${g}</div><div class="mgr">${gg[g].map(p=>{
+    const cur=p.id===person.id;
+    const dc=p.gender==="Male"?"var(--ml)":p.gender==="Female"?"var(--fm)":"var(--acm)";
+    const isSp=(person.spouseIds||[]).includes(p.id);
+    return`<div class="mnd ${cur?"cur":""}" onclick="vP('${p.id}')"><div class="mdt" style="background:${dc}"></div>${esc(p.firstName)} ${esc(p.lastName)}${isSp?" ∞":""}</div>`
+  }).join("")}</div></div>`;
+});
+h+=`</div>`;return h}
+
+// ─── Detail ───────────────────────────────────────────────────
+function rDt(p){
+const a=ag(p.dob,p.dod);
+const pa=(p.parentIds||[]).map(fp).filter(Boolean),sp=(p.spouseIds||[]).map(fp).filter(Boolean),ch=(p.childIds||[]).map(fp).filter(Boolean);
+const si=S.people.filter(x=>x.id!==p.id&&(p.parentIds||[]).length>0&&(x.parentIds||[]).some(pid=>(p.parentIds||[]).includes(pid)));
+const cp=l=>l.map(x=>`<button class="cc" onclick="vP('${x.id}')"><span class="av ${ac(x)}" style="width:18px;height:18px;font-size:9px;color:var(--tm)">${x.photo?`<img src="${x.photo}">`:ini(x)}</span>${esc(x.firstName)} ${esc(x.lastName)}</button>`).join("");
+return`<div class="cd cda fu" style="padding:20px">
+<div style="display:flex;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+<button class="bt bg" onclick="cD()">← Back</button><button class="bt bg" onclick="eP('${p.id}')">Edit</button></div>
+<div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:18px">
+<div class="av ${ac(p)}" style="width:90px;height:90px;font-size:32px;color:var(--tm);border-width:3px">${p.photo?`<img src="${p.photo}">`:ini(p)+(p.lastName||"?")[0]}</div>
+<div><h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ac);margin-bottom:4px">${esc(p.firstName)} ${esc(p.lastName)}</h2>
+${p.nickname?`<div style="font-size:14px;color:var(--tf);font-style:italic;margin-bottom:6px">"${esc(p.nickname)}"</div>`:""}
+<div style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--ts)">
+${p.generation?`<span style="padding:1px 10px;border-radius:10px;background:rgba(212,149,106,.1);color:var(--acm);font-size:11px;font-weight:600">Gen ${p.generation}</span>`:""}
+${p.gender?`<span>${esc(p.gender)}</span>`:""}
+${p.dob?`<span>b. ${fd(p.dob)}${p.birthLocation?`, ${esc(p.birthLocation)}`:""}</span>`:""}
+${a!==null?`<span>${p.dod?`Passed age ${a}`:`Age ${a}`}</span>`:""}
+${p.dod?`<span>d. ${fd(p.dod)}</span>`:""}</div></div></div>
+${p.lifeDetails?`<div class="dn"><div class="sl">Life Details</div><div style="font-size:14px;line-height:1.7;white-space:pre-wrap">${esc(p.lifeDetails)}</div></div>`:""}
+${rMT(p)}
+${(pa.length||sp.length||ch.length||si.length)?`<div class="sl" style="margin-top:16px">Connections</div>
+${pa.length?`<div style="margin-bottom:10px"><span style="font-size:11px;color:var(--tf);margin-right:8px">Parents:</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${cp(pa)}</div></div>`:""}
+${sp.length?`<div style="margin-bottom:10px"><span style="font-size:11px;color:var(--tf);margin-right:8px">Spouse(s):</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${cp(sp)}</div></div>`:""}
+${si.length?`<div style="margin-bottom:10px"><span style="font-size:11px;color:var(--tf);margin-right:8px">Siblings:</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${cp(si)}</div></div>`:""}
+${ch.length?`<div style="margin-bottom:10px"><span style="font-size:11px;color:var(--tf);margin-right:8px">Children:</span><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${cp(ch)}</div></div>`:""}
+`:""}</div>`}
+
+// ─── Form ─────────────────────────────────────────────────────
+function rFm(p,ie){
+const ot=S.people.filter(x=>x.id!==p.id);
+const cs=(lb,f)=>{const s=p[f]||[];return`<div style="margin-bottom:14px"><label class="lb">${lb}</label><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;max-height:120px;overflow-y:auto">${ot.length===0?`<span style="font-size:12px;color:var(--tf);font-style:italic">Add people first</span>`:ot.map(x=>{const a=s.includes(x.id);return`<button class="ct ${a?"on":""}" onclick="tFC('${f}','${x.id}')">${esc(x.firstName)} ${esc(x.lastName)} ${a?"✓":""}</button>`}).join("")}</div></div>`};
+return`<div class="cd cda fu" style="padding:20px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+<h3 style="font-family:'Playfair Display',serif;color:var(--ac);font-size:20px">${ie?"Edit":"Add"} Person</h3>
+<button onclick="cF()" style="background:none;border:none;color:var(--tf);cursor:pointer;font-size:18px">×</button></div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+<div class="av ${ac(p)}" style="width:60px;height:60px;cursor:pointer;border-style:dashed;font-size:11px;color:var(--tf)" onclick="document.getElementById('pi').click()">${p.photo?`<img src="${p.photo}">`:""}</div>
+<button class="bt bg" style="font-size:12px" onclick="document.getElementById('pi').click()">${p.photo?"Change":"Photo"}</button>
+${p.photo?`<button onclick="rmP()" style="background:none;border:none;color:var(--rd);font-size:11px;cursor:pointer">Remove</button>`:""}
+<input id="pi" type="file" accept="image/*" onchange="hP(this)" style="display:none"></div>
+<div class="g2">
+<div style="margin-bottom:12px"><label class="lb">First Name</label><input class="ip" id="f-fn" value="${esc(p.firstName)}"></div>
+<div style="margin-bottom:12px"><label class="lb">Last Name</label><input class="ip" id="f-ln" value="${esc(p.lastName)}"></div>
+<div style="margin-bottom:12px"><label class="lb">Nickname</label><input class="ip" id="f-nk" value="${esc(p.nickname)}"></div>
+<div style="margin-bottom:12px"><label class="lb">Gender</label><select class="ip" id="f-g"><option value="">Select...</option><option ${p.gender==="Male"?"selected":""}>Male</option><option ${p.gender==="Female"?"selected":""}>Female</option><option ${p.gender==="Other"?"selected":""}>Other</option></select></div>
+<div style="margin-bottom:12px"><label class="lb">Date of Birth</label><input class="ip" type="date" id="f-db" value="${p.dob||""}"></div>
+<div style="margin-bottom:12px"><label class="lb">Birth Location</label><input class="ip" id="f-bl" value="${esc(p.birthLocation)}"></div>
+<div style="margin-bottom:12px"><label class="lb">Date of Death</label><input class="ip" type="date" id="f-dd" value="${p.dod||""}"></div>
+<div style="margin-bottom:12px"><label class="lb">Generation</label><select class="ip" id="f-gn"><option value="">Select...</option>${[1,2,3,4,5,6,7,8].map(g=>`<option value="${g}" ${Number(p.generation)===g?"selected":""}>Gen ${g}</option>`).join("")}</select></div></div>
+<div style="margin-bottom:14px"><label class="lb">Life Details</label><textarea class="ip" id="f-ld" style="min-height:70px;resize:vertical" placeholder="Occupation, stories...">${esc(p.lifeDetails)}</textarea></div>
+<div style="border-top:1px solid var(--bd);padding-top:14px"><div class="sl" style="margin-bottom:12px">Connections</div>
+${cs("Parents","parentIds")}${cs("Spouse(s)","spouseIds")}${cs("Children","childIds")}</div>
+<div style="display:flex;gap:10px;margin-top:18px;justify-content:space-between;flex-wrap:wrap">
+<div style="display:flex;gap:10px"><button class="bt bp" onclick="sF('${p.id}')">${ie?"Save":"Add"}</button><button class="bt bg" onclick="cF()">Cancel</button></div>
+${ie?`<button class="bt bd" onclick="if(confirm('Delete?'))dP('${p.id}')">Delete</button>`:""}</div></div>`}
+
+// ═══ RENDER ═══
+function R(){
+const app=document.getElementById("app");
+const sc=S.ss==="synced"?"var(--gn)":S.ss==="error"?"var(--rd)":"var(--tm)";
+const sl=S.ss==="synced"?"Synced":S.ss==="error"?"Error":"Local";
+let h=`<div class="hd"><div><div class="hd-t">বংশতালিকা</div><div class="hd-s">Bongso Talika · Family Tree</div></div>
+<div style="display:flex;align-items:center;gap:14px"><span style="font-size:11px;display:flex;align-items:center;gap:5px;color:${sc}"><span style="width:6px;height:6px;border-radius:50%;background:${sc}"></span>${sl}</span><span style="font-size:12px;color:var(--tm)">${S.people.length}</span></div></div>
+<div class="nv">${["tree","people","add","settings"].map(v=>{const l={tree:"Tree",people:"People",add:"+ Add",settings:"Settings"};return`<button class="nb ${S.view===v?"on":""}" onclick="nv('${v}')">${l[v]}</button>`}).join("")}</div><div class="mn">`;
+
+if(S.view==="tree"&&!S.viewing&&!S.editing) h+=rTV();
+else if(S.view==="tree"&&S.viewing&&!S.editing) h+=rDt(S.viewing);
+else if(S.editing) h+=rFm(S.editing,true);
+else if(S.view==="add"){const np={id:gid(),firstName:"",lastName:"Dey",nickname:"",gender:"",dob:"",birthLocation:"",dod:"",generation:"",lifeDetails:"",photo:"",parentIds:[],spouseIds:[],childIds:[],so:0};S._ap=np;h+=rFm(np,false)}
+else if(S.view==="people"&&!S.editing){
+  let fl=S.people;
+  if(S.search){const s=S.search.toLowerCase();fl=fl.filter(p=>`${p.firstName} ${p.lastName} ${p.nickname} ${p.birthLocation}`.toLowerCase().includes(s))}
+  if(S.gf)fl=fl.filter(p=>String(p.generation)===S.gf);
+  fl.sort((a,b)=>(Number(a.generation)||99)-(Number(b.generation)||99));
+  h+=`<div class="fu"><div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+  <input class="ip" style="flex:1;min-width:180px" placeholder="Search..." value="${esc(S.search)}" oninput="S.search=this.value;R()">
+  <select class="ip" style="width:auto;min-width:100px" onchange="S.gf=this.value;R()"><option value="">All</option>${[1,2,3,4,5,6,7,8].map(g=>`<option value="${g}" ${S.gf===String(g)?"selected":""}>Gen ${g}</option>`).join("")}</select></div>`;
+  if(fl.length===0)h+=`<div style="text-align:center;padding:30px;color:var(--tm);font-size:14px">${S.people.length===0?"Empty.":"No matches."}</div>`;
+  else fl.forEach(p=>{h+=`<div class="cd" style="display:flex;gap:14px;align-items:flex-start;cursor:pointer" onclick="vP('${p.id}');S.view='tree';R()">
+  <div class="av ${ac(p)}" style="width:44px;height:44px;font-size:15px;color:var(--tm)">${p.photo?`<img src="${p.photo}">`:ini(p)}</div>
+  <div style="flex:1;min-width:0"><div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:16px;font-weight:600">${esc(p.firstName)} ${esc(p.lastName)}</span>${p.nickname?`<span style="font-size:13px;color:var(--tf);font-style:italic">"${esc(p.nickname)}"</span>`:""}</div>
+  <div style="font-size:12px;color:var(--tm);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap">
+  ${p.generation?`<span style="padding:1px 8px;border-radius:10px;background:rgba(212,149,106,.1);color:var(--acm);font-size:10px;font-weight:600">Gen ${p.generation}</span>`:""}
+  ${p.birthLocation?`<span>${esc(p.birthLocation)}</span>`:""} ${p.dob?`<span>${fy(p.dob)}${p.dod?"–"+fy(p.dod):""}</span>`:""}</div>
+  ${p.lifeDetails?`<div style="font-size:12px;color:var(--tf);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(p.lifeDetails)}</div>`:""}</div></div>`});
+  h+=`</div>`;
+}
+else if(S.view==="settings"){
+  const cfg=S.fbc||{};
+  h+=`<div class="fu"><div class="cd" style="padding:20px">
+  <h3 style="font-family:'Playfair Display',serif;color:var(--ac);margin-bottom:8px;font-size:18px">Firebase Realtime Database</h3>
+  <p style="font-size:13px;color:var(--tm);margin-bottom:14px;line-height:1.6">Connect for cross-device sync. <strong>databaseURL</strong> required.</p>
+  <div style="padding:8px 14px;border-radius:5px;margin-bottom:14px;font-size:12px;display:flex;align-items:center;gap:8px;background:${S.ss==="synced"?"rgba(96,176,112,.07)":S.ss==="error"?"rgba(192,96,96,.07)":"rgba(212,149,106,.05)"};border:1px solid ${S.ss==="synced"?"rgba(96,176,112,.2)":S.ss==="error"?"rgba(192,96,96,.2)":"var(--bd)"};color:${sc}"><span style="width:6px;height:6px;border-radius:50%;background:currentColor"></span>${S.ss==="synced"?"Connected":S.ss==="error"?"Failed":"Not connected"}</div>
+  <div class="g2">${["apiKey","authDomain","databaseURL","projectId","storageBucket","messagingSenderId","appId"].map(k=>`<div style="margin-bottom:10px"><label class="lb">${k}</label><input class="ip" id="fb-${k}" value="${esc(cfg[k]||"")}" style="font-size:12px;font-family:monospace"></div>`).join("")}</div>
+  <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+  <button class="bt bp" onclick="sFbc()">Save & Connect</button>
+  ${S.ss==="synced"?`<button class="bt bg" onclick="fPA()">Push All (${S.people.length})</button>`:""}
+  <button class="bt bd" onclick="dFb()">Disconnect</button></div>
+  <div class="sg" style="padding:14px;border-radius:6px;background:var(--bg);border:1px solid var(--bd);margin-top:14px"><div class="sl">Setup</div><ol style="padding-left:18px;font-size:12px;color:var(--tm);line-height:2">
+  <li><span class="hl">console.firebase.google.com</span> → Create project</li>
+  <li>Build → Realtime Database → Create (test mode)</li>
+  <li>Project Settings → Your apps → Add web app</li>
+  <li>Copy config + <code>databaseURL</code></li>
+  <li>Save & Connect, then Push All</li></ol></div></div>
+  <div class="cd" style="padding:20px"><h3 style="font-family:'Playfair Display',serif;color:var(--ac);margin-bottom:12px;font-size:18px">Data</h3>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+  <button class="bt bp" onclick="eJ()">Export (${S.people.length})</button>
+  <label class="bt bg" style="cursor:pointer">Import<input type="file" accept=".json" onchange="iJ(this)" style="display:none"></label>
+  <button class="bt bd" onclick="if(confirm('Reset?')){S.people=bI();sL();R()}">Reset</button></div></div></div>`;
+}
+
+h+=`</div><div class="ft">বংশতালিকা · BONGSO TALIKA · ${new Date().getFullYear()}</div>`;
+app.innerHTML=h}
+
+// ═══ HANDLERS ═══
+window.nv=v=>{S.view=v;S.editing=null;S.viewing=null;R()};
+window.vP=id=>{S.viewing=fp(id);S.editing=null;S.view="tree";R();window.scrollTo({top:0,behavior:"smooth"})};
+window.eP=id=>{S.editing=JSON.parse(JSON.stringify(fp(id)));R()};
+window.cD=()=>{S.viewing=null;R()};
+window.cF=()=>{S.editing=null;if(S.view==="add")S.view="tree";R()};
+window.tFC=(f,id)=>{const p=S.editing||S._ap;if(!p)return;const a=p[f]||[];p[f]=a.includes(id)?a.filter(x=>x!==id):[...a,id];R()};
+window.hP=input=>{const f=input.files?.[0];if(!f)return;if(f.size>2*1024*1024){alert("Max 2MB");return}const r=new FileReader();r.onload=e=>{const p=S.editing||S._ap;if(p){p.photo=e.target.result;R()}};r.readAsDataURL(f)};
+window.rmP=()=>{const p=S.editing;if(p){p.photo="";R()}};
+window.sF=id=>{const p=S.editing||S._ap;const ps={id,firstName:document.getElementById("f-fn")?.value||"",lastName:document.getElementById("f-ln")?.value||"",nickname:document.getElementById("f-nk")?.value||"",gender:document.getElementById("f-g")?.value||"",dob:document.getElementById("f-db")?.value||"",birthLocation:document.getElementById("f-bl")?.value||"",dod:document.getElementById("f-dd")?.value||"",generation:document.getElementById("f-gn")?.value||"",lifeDetails:document.getElementById("f-ld")?.value||"",photo:p?.photo||"",parentIds:p?.parentIds||[],spouseIds:p?.spouseIds||[],childIds:p?.childIds||[],so:p?.so||0};S._ap=null;sP(ps)};
+window.dP=dP;
+// Drag
+window.dS=(e,id)=>{e.dataTransfer.setData("text/plain",id);e.currentTarget.classList.add("dg")};
+window.dO=e=>{e.preventDefault();e.currentTarget.classList.add("dov")};
+window.dD=(e,tid)=>{e.preventDefault();e.currentTarget.classList.remove("dov");const did=e.dataTransfer.getData("text/plain");if(did===tid)return;const dp=fp(did),tp=fp(tid);if(!dp||!tp||dp.generation!==tp.generation)return;const gp=S.people.filter(p=>p.generation===dp.generation).sort((a,b)=>(a.so||0)-(b.so||0));const di=gp.findIndex(p=>p.id===did),ti=gp.findIndex(p=>p.id===tid);if(di<0||ti<0)return;const[m]=gp.splice(di,1);gp.splice(ti,0,m);gp.forEach((p,i)=>p.so=i);sL();R()};
+window.dE=e=>{e.currentTarget.classList.remove("dg");document.querySelectorAll(".dov").forEach(el=>el.classList.remove("dov"))};
+// Firebase
+window.sFbc=()=>{const c={};["apiKey","authDomain","databaseURL","projectId","storageBucket","messagingSenderId","appId"].forEach(k=>{c[k]=document.getElementById(`fb-${k}`)?.value||""});S.fbc=c;sFc();cFb(c)};
+window.dFb=()=>{S.fbc=null;S.ss="local";fdb=null;if(fbu)fbu();try{localStorage.removeItem(FK)}catch{};R()};
+window.fPA=fPA;
+window.eJ=()=>{const b=new Blob([JSON.stringify(S.people,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=`bongso-talika-${new Date().toISOString().slice(0,10)}.json`;a.click()};
+window.iJ=input=>{const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(Array.isArray(d)&&confirm(`Import ${d.length}?`)){d.forEach(p=>{const i=S.people.findIndex(x=>x.id===p.id);if(i>=0)S.people[i]=p;else S.people.push(p)});sL();R()}}catch{alert("Invalid")}};r.readAsText(f)};
+
+// ─── INIT ─────────────────────────────────────────────────────
+const sv=lL();if(sv&&sv.length>0)S.people=sv;else{S.people=bI();sL()}
+const sc=lFc();if(sc){S.fbc=sc;setTimeout(()=>cFb(sc),1000)}
+R();
+if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>

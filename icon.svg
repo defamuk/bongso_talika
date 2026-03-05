@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#0f0e0c"/>
+  <g transform="translate(256, 100)">
+    <!-- Root circle -->
+    <circle cx="0" cy="0" r="28" fill="none" stroke="#bf8a4f" stroke-width="4"/>
+    <text x="0" y="6" text-anchor="middle" fill="#bf8a4f" font-family="serif" font-size="24" font-weight="bold">বং</text>
+    <!-- Trunk -->
+    <line x1="0" y1="28" x2="0" y2="100" stroke="#bf8a4f" stroke-width="3" opacity="0.6"/>
+    <!-- Branch left -->
+    <line x1="0" y1="70" x2="-80" y2="130" stroke="#bf8a4f" stroke-width="2.5" opacity="0.5"/>
+    <circle cx="-80" cy="130" r="18" fill="none" stroke="#5a8ab0" stroke-width="3"/>
+    <!-- Branch right -->
+    <line x1="0" y1="70" x2="80" y2="130" stroke="#bf8a4f" stroke-width="2.5" opacity="0.5"/>
+    <circle cx="80" cy="130" r="18" fill="none" stroke="#b05a7a" stroke-width="3"/>
+    <!-- Sub branches -->
+    <line x1="-80" y1="148" x2="-120" y2="200" stroke="#bf8a4f" stroke-width="2" opacity="0.4"/>
+    <circle cx="-120" cy="200" r="14" fill="none" stroke="#5a8ab0" stroke-width="2.5"/>
+    <line x1="-80" y1="148" x2="-40" y2="200" stroke="#bf8a4f" stroke-width="2" opacity="0.4"/>
+    <circle cx="-40" cy="200" r="14" fill="none" stroke="#b05a7a" stroke-width="2.5"/>
+    <line x1="80" y1="148" x2="40" y2="200" stroke="#bf8a4f" stroke-width="2" opacity="0.4"/>
+    <circle cx="40" cy="200" r="14" fill="none" stroke="#5a8ab0" stroke-width="2.5"/>
+    <line x1="80" y1="148" x2="120" y2="200" stroke="#bf8a4f" stroke-width="2" opacity="0.4"/>
+    <circle cx="120" cy="200" r="14" fill="none" stroke="#b05a7a" stroke-width="2.5"/>
+    <!-- Deeper sub-branches -->
+    <line x1="-120" y1="214" x2="-140" y2="256" stroke="#bf8a4f" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="-140" cy="256" r="10" fill="none" stroke="#8a6a42" stroke-width="2"/>
+    <line x1="-120" y1="214" x2="-100" y2="256" stroke="#bf8a4f" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="-100" cy="256" r="10" fill="none" stroke="#8a6a42" stroke-width="2"/>
+    <line x1="120" y1="214" x2="100" y2="256" stroke="#bf8a4f" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="100" cy="256" r="10" fill="none" stroke="#8a6a42" stroke-width="2"/>
+    <line x1="120" y1="214" x2="140" y2="256" stroke="#bf8a4f" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="140" cy="256" r="10" fill="none" stroke="#8a6a42" stroke-width="2"/>
+  </g>
+  <!-- Title -->
+  <text x="256" y="440" text-anchor="middle" fill="#bf8a4f" font-family="serif" font-size="42" font-weight="700" letter-spacing="2">VANSHAVALI</text>
+</svg>

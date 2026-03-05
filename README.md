@@ -1,4 +1,4 @@
-# বংশাবলী · Vanshavali
+# বংশাবলী · Bongso Talika
 
 **Interactive Family Tree PWA with Firebase Realtime Database Sync**
 
@@ -20,7 +20,7 @@ A progressive web app for documenting and exploring your family tree across gene
 
 ### Option 1: Quick Deploy
 
-1. Create a new GitHub repository (e.g. `vanshavali`)
+1. Create a new GitHub repository (e.g. `Bongso Talika`)
 2. Upload all files from this folder to the repository:
    ```
    index.html
@@ -34,7 +34,7 @@ A progressive web app for documenting and exploring your family tree across gene
 4. Under "Source", select **Deploy from a branch**
 5. Select **main** branch and **/ (root)** folder
 6. Click **Save**
-7. Your site will be live at `https://yourusername.github.io/vanshavali/`
+7. Your site will be live at `https://yourusername.github.io/Bongso Talika/`
 
 ### Option 2: Command Line
 
@@ -44,7 +44,7 @@ git init
 git add .
 git commit -m "Initial deploy"
 git branch -M main
-git remote add origin https://github.com/YOURUSERNAME/vanshavali.git
+git remote add origin https://github.com/YOURUSERNAME/Bongso Talika.git
 git push -u origin main
 
 # Enable GitHub Pages in repo Settings → Pages → main branch
@@ -59,7 +59,7 @@ git push -u origin main
 5. Go to **Project Settings** (gear icon) → **General** → scroll to **Your apps**
 6. Click **Add app** → **Web** (</> icon)
 7. Register the app and copy the config values
-8. In Vanshavali, go to **Settings** and paste all config values
+8. In Bongso Talika, go to **Settings** and paste all config values
 9. Make sure to include the **databaseURL** (e.g. `https://your-project-default-rtdb.firebaseio.com`)
 10. Click **Save & Connect**
 11. Click **Push All** to upload your tree to Firebase
@@ -98,7 +98,7 @@ All parent-child and spouse connections are wired up. You can edit, add, or corr
 ## File Structure
 
 ```
-vanshavali/
+Bongso Talika/
 ├── index.html       # Complete app (HTML + CSS + JS, single file)
 ├── manifest.json    # PWA manifest
 ├── sw.js           # Service worker for offline support
